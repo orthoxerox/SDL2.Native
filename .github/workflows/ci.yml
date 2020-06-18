@@ -27,12 +27,13 @@ jobs:
         hg update $SDL_VERSION
         rm -rf .hg
         cd ..
+        zip SDL.zip SDL/*
         echo "::set-output name=version::$SDL_VERSION"
     - name: Upload the sources
       uses: actions/upload-artifact@v2
       with:
         name: sources
-        path: SDL
+        path: SDL.zip
   
   build-linux:
     runs-on: ubuntu-latest
@@ -54,6 +55,7 @@ jobs:
         name: sources
     - name: Build the source
       run: |
+        unzip SDL.zip
         cd SDL
         mkdir build
         cd build
