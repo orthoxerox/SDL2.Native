@@ -27,7 +27,7 @@ jobs:
         hg update $SDL_VERSION
         rm -rf .hg
         cd ..
-        zip SDL.zip SDL/*
+        zip -r SDL.zip SDL
         echo "::set-output name=version::$SDL_VERSION"
     - name: Upload the sources
       uses: actions/upload-artifact@v2
@@ -41,7 +41,7 @@ jobs:
     steps:
     - name: Install all the libraries
       run: |
-        sudo apt-get update
+        sudo apt-get update --quiet --assume-yes
         sudo apt-get install --quiet --assume-yes \
         build-essential mercurial make cmake autoconf automake unzip \
         libtool libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev \
