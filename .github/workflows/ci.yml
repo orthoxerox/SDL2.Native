@@ -17,7 +17,7 @@ jobs:
     - name: Clone SDL
       run: |
         echo $(pwd)
-        md SDL
+        mkdir SDL
         cd SDL
         hg clone http://hg.libsdl.org/SDL
         echo $(ls -al)
