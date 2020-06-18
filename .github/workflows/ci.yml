@@ -13,7 +13,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Install Mercural
-      run: apt-get install --quiet --assume-yes mercurial
+      run: sudo apt-get install --quiet --assume-yes mercurial
     - name: Clone SDL
       run: |
         echo $(pwd)
