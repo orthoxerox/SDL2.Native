@@ -61,7 +61,8 @@ jobs:
         cd build
         ../configure
         make
-        cd build/.libs/
+        sudo make install
+        cd /usr/local/lib
     - name: Publish the artifact
       uses: actions/upload-artifact@v2
       with:
