@@ -59,10 +59,10 @@ jobs:
         cd SDL
         mkdir build
         cd build
-        ../configure
+        ../configure --prefix=$(pwd)/install 
         make
         sudo make install
-        cd /usr/local/lib
+        cd install/lib
     - name: Publish the artifact
       uses: actions/upload-artifact@v2
       with:
