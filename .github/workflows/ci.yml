@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Install tools
-      run: sudo apt-get install --quiet --assume-yes mercurial zip unzip
+      run: sudo apt-get install --quiet --assume-yes mercurial zip
     - name: Clone SDL
       run: |
         echo $(pwd)
@@ -27,12 +27,13 @@ jobs:
         hg update $SDL_VERSION
         rm -rf .hg
         cd ..
+        zip SDL.zip SDL
         echo "::set-output name=version::$SDL_VERSION"
     - name: Upload the sources
       uses: actions/upload-artifact@v2
       with:
         name: sources
-        path: SDL
+        path: SDL.zip
   
   build-linux:
     runs-on: ubuntu-latest
@@ -41,7 +42,7 @@ jobs:
     - name: Install all the libraries
       run: |
         sudo apt-get install --quiet --assume-yes \
-        build-essential mercurial make cmake autoconf automake \
+        build-essential mercurial make cmake autoconf automake unzip \
         libtool libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev \
         libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev \
         libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev \
@@ -53,6 +54,7 @@ jobs:
         name: sources
     - name: Build the source
       run: |
+        unzip SDL.zip
         cd SDL
         mkdir build
         cd build
