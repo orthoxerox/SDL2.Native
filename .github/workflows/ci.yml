@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  clone-sdl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Mercural
+      run: apt-get install --quiet --assume-yes mercurial
+    - name: Clone SDL
+      run: |
+        echo $(pwd)
+        md SDL
+        cd SDL
+        hg clone http://hg.libsdl.org/SDL
+        echo $(ls -al)
+        
