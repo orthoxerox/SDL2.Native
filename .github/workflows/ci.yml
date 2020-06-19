@@ -35,20 +35,10 @@ jobs:
         name: sources
         path: SDL.zip
   
-  build-linux:
-    runs-on: ubuntu-latest
+  build-osx:
+    runs-on: macos-latest
     needs: clone-sdl
     steps:
-    - name: Install all the libraries
-      run: |
-        sudo apt-get update --quiet --assume-yes
-        sudo apt-get install --quiet --assume-yes \
-        build-essential mercurial make cmake autoconf automake unzip \
-        libtool libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev \
-        libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev \
-        libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev \
-        libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev \
-        libsndio-dev libwayland-dev libxkbcommon-dev
     - name: Retrieve the source
       uses: actions/download-artifact@v2
       with:
@@ -59,14 +49,47 @@ jobs:
         cd SDL
         mkdir build
         cd build
-        ../configure --prefix=$(pwd)/install 
+        CC=$(pwd)/../build-scripts/gcc-fat.sh ../configure --prefix=$(pwd)/install 
         make
         sudo make install
-        cd install/lib
-        echo $(ls -al)
+        cd ..
+        zip -r SDL.zip SDL
     - name: Publish the artifact
       uses: actions/upload-artifact@v2
       with:
         name: linux-x64
-        path: SDL/build/install/lib/libSDL2.so
+        path: SDL.zip
+  
+#  build-linux:
+#    runs-on: ubuntu-latest
+#    needs: clone-sdl
+#    steps:
+#    - name: Install all the libraries
+#      run: |
+#        sudo apt-get update --quiet --assume-yes
+#        sudo apt-get install --quiet --assume-yes \
+#        build-essential mercurial make cmake autoconf automake unzip \
+#        libtool libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev \
+#        libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev \
+#        libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev \
+#        libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev \
+#        libsndio-dev libwayland-dev libxkbcommon-dev
+#    - name: Retrieve the source
+#      uses: actions/download-artifact@v2
+#      with:
+#        name: sources
+#    - name: Build the source
+#      run: |
+#        unzip SDL.zip
+#        cd SDL
+#        mkdir build
+#        cd build
+#        ../configure --prefix=$(pwd)/install 
+#        make
+#        sudo make install
+#    - name: Publish the artifact
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: linux-x64
+#        path: SDL/build/install/lib/libSDL2.so
 
