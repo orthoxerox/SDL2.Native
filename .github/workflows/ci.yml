@@ -53,7 +53,7 @@ jobs:
         ../configure --prefix=$(pwd)/install 
         make
         sudo make install
-        cd ..
+        cd ../..
         zip -r SDL.zip SDL
     - name: Publish the artifact
       uses: actions/upload-artifact@v2
