@@ -68,5 +68,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: linux-x64
-        path: libSDL2.so
+        path: /home/runner/work/SDL2.Native/SDL2.Native/SDL/build/install/lib/libSDL2.so
 
