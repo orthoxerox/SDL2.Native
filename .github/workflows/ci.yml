@@ -37,6 +37,25 @@ jobs:
         name: sources
         path: SDL.zip
   
+  build-windows:
+    runs-on: windows-latest
+    needs: clone-sdl
+    steps:
+    - name: Retrieve the source
+      uses: actions/download-artifact@v2
+      with:
+        name: sources
+    - name: Inflate the source
+      uses: DuckSoft/extract-7z-action@v1.0
+      with:
+        pathSource: SDL.zip
+        pathTarget: .
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1 
+    - name: Build the source
+      run: msbuild.exe SDL\VisualC\SDL\SDL.vcxproj
+
+  
   build-osx:
     runs-on: macos-latest
     needs: clone-sdl
@@ -89,12 +108,10 @@ jobs:
         ../configure --prefix=$(pwd)/install 
         make
         sudo make install
-        cd ../..
-        zip -r linux.zip SDL/build/install/lib
+        strip install/lib/libSDL2.so
     - name: Publish the artifact
       uses: actions/upload-artifact@v2
       with:
         name: linux-x64
-        path: linux.zip
-        #path: SDL/build/install/lib/libSDL2.so
+        path: SDL/build/install/lib/libSDL2.so
 
