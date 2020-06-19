@@ -56,6 +56,17 @@ jobs:
       run: |
         msbuild.exe SDL\VisualC\SDL\SDL.vcxproj /p:PlatformToolset=v142 /p:Configuration=Release /p:Platform=x64
         msbuild.exe SDL\VisualC\SDL\SDL.vcxproj /p:PlatformToolset=v142 /p:Configuration=Release /p:Platform=x86
+    - name: Publish the artifact (x64)
+      uses: actions/upload-artifact@v2
+      with:
+        name: win-x64
+        path: SDL\VisualC\SDL\x64\Release\SDL2.dll
+    - name: Publish the artifact (x86)
+      uses: actions/upload-artifact@v2
+      with:
+        name: win-x86
+        path: SDL\VisualC\SDL\Win32\Release\SDL2.dll
+      
   
   build-osx:
     runs-on: macos-latest
@@ -109,10 +120,11 @@ jobs:
         ../configure --prefix=$(pwd)/install 
         make
         sudo make install
-        strip install/lib/libSDL2.so
+        cp install/lib/libSDL2.so ../../libSDL2.so
+        strip ../../libSDL2.so
     - name: Publish the artifact
       uses: actions/upload-artifact@v2
       with:
         name: linux-x64
-        path: SDL/build/install/lib/libSDL2.so
+        path: libSDL2.so
 
