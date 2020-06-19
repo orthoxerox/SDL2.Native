@@ -43,13 +43,14 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: sources
+    - name: Inflate the source
+      run: unzip SDL.zip
     - name: Build the source
       run: |
-        unzip SDL.zip
         cd SDL
         mkdir build
         cd build
-        CC=$(pwd)/../build-scripts/gcc-fat.sh ../configure --prefix=$(pwd)/install 
+        ../configure --prefix=$(pwd)/install 
         make
         sudo make install
         cd ..
