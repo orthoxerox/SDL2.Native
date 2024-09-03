@@ -42,7 +42,7 @@ jobs:
     needs: clone-sdl
     steps:
     - name: Retrieve the source
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: sources
     - name: Inflate the source
@@ -73,7 +73,7 @@ jobs:
     needs: clone-sdl
     steps:
     - name: Retrieve the source
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: sources
     - name: Inflate the source
@@ -107,7 +107,7 @@ jobs:
         libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev \
         libsndio-dev libwayland-dev libxkbcommon-dev
     - name: Retrieve the source
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: sources
     - name: Inflate the source
